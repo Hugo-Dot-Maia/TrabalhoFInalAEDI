@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <speechapi_cxx.h>
+#include "Equipamento.h"
 
 
 using namespace std;
@@ -27,7 +28,7 @@ string fala_em_texto(std::shared_ptr<Microsoft::CognitiveServices::Speech::Speec
 
 int main()
 {
-    auto autenticacao = SpeechConfig::FromSubscription("<INSIRA AQUI A SUA KEY DO RECURSO>", "<INSIRA AQUI A REGIÃO EM QUE O RECURSO É HOSPEDADO>"); // DECLARAÇÃO DA AUTENTICAÇÃO DO RECURSO
+    auto autenticacao = SpeechConfig::FromSubscription("", ""); // DECLARAÇÃO DA AUTENTICAÇÃO DO RECURSO
     autenticacao->SetSpeechRecognitionLanguage("pt-BR");                //  CONFIGURAÇÃO DA AUTENTICAÇÃO PARA O RECONHECIMENTO DE FALA EM PORTUGUÊS 
     autenticacao->SetSpeechSynthesisLanguage("pt-BR");                  //  CONFIGURAÇÃO DA AUTENTICAÇÃO PARA A SINTETIZAÇÃO DE FALA EM PORTUGUÊS 
     autenticacao->SetSpeechSynthesisVoiceName("pt-BR-FranciscaNeural"); // CONFIGURAÇÃO DE UMA VOZ ESPECÍFICA: pt-BR-AntonioNeural, pt-BR-FranciscaNeural
@@ -45,15 +46,15 @@ int main()
         texto_em_fala(requisicao_textofala, "SISTEMA LIGADO");
         texto_em_fala(requisicao_textofala, "Qual e o seu nome?");
         string nome = fala_em_texto(requisicao_falatexto);
-        texto_em_fala(requisicao_textofala, "Ola " + nome + "! Informe a sua senha: ");
+        texto_em_fala(requisicao_textofala, "Ola " + nome + "! Informe se deseja utilizar o sistema por meio de comandos de voz (Sim/Nao): ");
         string senha = fala_em_texto(requisicao_falatexto);
         texto_em_fala(requisicao_textofala, "Verificando. . .");
 
-        if (senha == ("123456.")) {
-            texto_em_fala(requisicao_textofala, "ACESSO CONCEDIDO");
+        if (senha == ("Sim.")) {
+            texto_em_fala(requisicao_textofala, "SISTEMA POR COMANDO DE VOZ ATIVO");
         }
         else {
-            texto_em_fala(requisicao_textofala, "ACESSO NEGADO");
+            texto_em_fala(requisicao_textofala, "SISTEMA SEM COMANDO DE VOZ");
         }
     }
     catch (exception e)
