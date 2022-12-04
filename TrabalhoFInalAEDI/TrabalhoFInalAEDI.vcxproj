@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Equipamento.cpp" />
+    <ClCompile Include="TipoEquipamento.cpp" />
     <ClCompile Include="TrabalhoFInalAEDI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Equipamento.h" />
+    <ClInclude Include="TipoEquipamento.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
