@@ -11,21 +11,24 @@ private:
 	string descricao;
 	string tipo;
 	int codigo;
+	float preco;
 	// Departamento
 
 public:
 	Equipamento();
-	Equipamento(string nome, string descricao, string tipo, int codigo);
+	Equipamento(string nome, string descricao, string tipo, int codigo, float preco);
 
 	string getNome();
 	string getDescricao();
 	string getTipo();
 	int getCodigo();
+	float getPreco();
 
-	string setNome(string nome);
-	string setDescricao(string descricao);
-	string setTipo(string tipo);
-	int setCodigo(int codigo);
+	void setNome(string nome);
+	void setDescricao(string descricao);
+	void setTipo(string tipo);
+	void setCodigo(int codigo);
+	void setPreco(float preco);
 
 
 };

@@ -5,12 +5,15 @@
 #include <fstream>
 #include <string>
 #include <speechapi_cxx.h>
+#include <stdbool.h>
 #include "Equipamento.h"
 
 
 using namespace std;
 using namespace Microsoft::CognitiveServices::Speech;
 using namespace Microsoft::CognitiveServices::Speech::Audio;
+
+bool comandoPorVoz;
 
 // PROCEDIMENTO QUE REQUISITA DA API A TRANSFORMAÇÃO DE UM TEXTO EM FALA
 void texto_em_fala(std::shared_ptr<Microsoft::CognitiveServices::Speech::SpeechSynthesizer> requisicao_textofala, string Texto)
@@ -26,9 +29,9 @@ string fala_em_texto(std::shared_ptr<Microsoft::CognitiveServices::Speech::Speec
     return resultado->Text; //CONVERSÃO DO RESULTADO DO RECONHECIMENTO EM TEXTO
 }
 
-int main()
-{
-    auto autenticacao = SpeechConfig::FromSubscription("", ""); // DECLARAÇÃO DA AUTENTICAÇÃO DO RECURSO
+void audioConfig() {
+
+    auto autenticacao = SpeechConfig::FromSubscription("0c1fcedeae0142e5a9c56ebbc84688dc", "brazilsouth"); // DECLARAÇÃO DA AUTENTICAÇÃO DO RECURSO
     autenticacao->SetSpeechRecognitionLanguage("pt-BR");                //  CONFIGURAÇÃO DA AUTENTICAÇÃO PARA O RECONHECIMENTO DE FALA EM PORTUGUÊS 
     autenticacao->SetSpeechSynthesisLanguage("pt-BR");                  //  CONFIGURAÇÃO DA AUTENTICAÇÃO PARA A SINTETIZAÇÃO DE FALA EM PORTUGUÊS 
     autenticacao->SetSpeechSynthesisVoiceName("pt-BR-FranciscaNeural"); // CONFIGURAÇÃO DE UMA VOZ ESPECÍFICA: pt-BR-AntonioNeural, pt-BR-FranciscaNeural
@@ -52,15 +55,26 @@ int main()
 
         if (senha == ("Sim.")) {
             texto_em_fala(requisicao_textofala, "SISTEMA POR COMANDO DE VOZ ATIVO");
+            comandoPorVoz = true;
         }
         else {
             texto_em_fala(requisicao_textofala, "SISTEMA SEM COMANDO DE VOZ");
+            comandoPorVoz = false;
         }
     }
     catch (exception e)
     {
         cout << e.what();
     }
+
+}
+
+int main()
+{
+    audioConfig();
+    printf("%d", comandoPorVoz);
+
+
     return 0;
 }
 
