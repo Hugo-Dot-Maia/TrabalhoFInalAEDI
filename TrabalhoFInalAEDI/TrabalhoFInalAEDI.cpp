@@ -7,6 +7,7 @@
 #include <speechapi_cxx.h>
 #include <stdbool.h>
 #include "Equipamento.h"
+#include "TipoEquipamento.h"
 
 
 using namespace std;
@@ -31,7 +32,7 @@ string fala_em_texto(std::shared_ptr<Microsoft::CognitiveServices::Speech::Speec
 
 void audioConfig() {
 
-    auto autenticacao = SpeechConfig::FromSubscription("0c1fcedeae0142e5a9c56ebbc84688dc", "brazilsouth"); // DECLARAÇÃO DA AUTENTICAÇÃO DO RECURSO
+    auto autenticacao = SpeechConfig::FromSubscription("", ""); // DECLARAÇÃO DA AUTENTICAÇÃO DO RECURSO
     autenticacao->SetSpeechRecognitionLanguage("pt-BR");                //  CONFIGURAÇÃO DA AUTENTICAÇÃO PARA O RECONHECIMENTO DE FALA EM PORTUGUÊS 
     autenticacao->SetSpeechSynthesisLanguage("pt-BR");                  //  CONFIGURAÇÃO DA AUTENTICAÇÃO PARA A SINTETIZAÇÃO DE FALA EM PORTUGUÊS 
     autenticacao->SetSpeechSynthesisVoiceName("pt-BR-FranciscaNeural"); // CONFIGURAÇÃO DE UMA VOZ ESPECÍFICA: pt-BR-AntonioNeural, pt-BR-FranciscaNeural
@@ -69,11 +70,117 @@ void audioConfig() {
 
 }
 
+void audioMenu()
+{
+
+}
+
+
+/*-------------------------------------------------------------------------------------------------------------------------
+Essa seção se destina a CRUD de Tipo Equipamento
+-------------------------------------------------------------------------------------------------------------------------*/
+void createTipoEquipamento()
+{
+    int codigo;
+    string descricao;
+    printf("\nInsira a descricao: ");
+    scanf_s("%s", descricao, sizeof(descricao));
+    printf("\nInsira o codigo: ");
+    scanf_s("%d", &codigo);
+    TipoEquipamento tipoEquipamento(descricao, codigo);
+
+    FILE* fp;
+    fopen_s(&fp, "TipoEquipamento.txt", "w");
+    if (fp == NULL)
+    {
+        printf("ERRO AQUIVO\n");
+        return;
+    }
+    cout << "fwrite returned " << fwrite(&codigo, sizeof(codigo), 1, fp);
+    cout << "fwrite returned " << fwrite(&descricao, sizeof(descricao), 1, fp);
+
+    fclose(fp);
+}
+void crudTipoEquipamento() 
+{
+    bool repete = false;
+    int indice = 0;
+    do
+    {
+        printf("\nDigite a operacao do CRUD que fazer ver\n");
+        scanf_s("%d", &indice);
+
+        switch (indice)
+        {
+        case 1:
+            createTipoEquipamento();
+            break;
+        case 2:
+            //Read
+            break;
+        case 3:
+            //Update
+            break;
+        case 4:
+            //Delete
+            break;
+
+        default:
+            printf("Voce nao insiriu uma operacao valida");
+            break;
+        }
+
+        printf("\nCaso deseje realizar outra operacao do CRUD digite 1, caso nao digite 0\n");
+        scanf_s("%d", &repete);
+    } while (repete);
+
+}
+//------------------------------------------ FIM DA SEÇÃO: CRUD  de Tipo Equipamento ------------------------------------------------------
+
+void normalMenu()
+{
+    bool repete = false;
+    int indice = 0;
+    do 
+    {
+        printf("\nDigite a operacao que fazer ver\n");
+        printf("A) CRUD Tipo equipamento.\n");
+        scanf_s("%d", &indice);
+
+        switch (indice)
+        {
+        case 1:
+            crudTipoEquipamento();
+            break;
+        case 2:
+            //Read
+            break;
+         case 3:
+             //Update
+             break;
+         case 4:
+             //Delete
+             break;
+
+        default:
+            printf("Voce nao insiriu uma operacao valida");
+            break;
+        }
+
+        printf("\nCaso deseje realizar outra operacao do digite 1, caso nao digite 0\n");
+        scanf_s("%d", &repete);
+    } while (repete);
+
+}
 int main()
 {
     audioConfig();
     printf("%d", comandoPorVoz);
 
+    if (comandoPorVoz)
+        audioMenu();
+    else
+        normalMenu();
 
     return 0;
 }
